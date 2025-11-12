@@ -2,15 +2,19 @@
 
 import { Client, GatewayIntentBits } from "discord.js";
 
-// --- HARD CODE TOKEN (protože Railway ho nepředává) ---
-const DISCORD_TOKEN = "MTQzNzU1MzI1NjQxODI0NjcyNg.GYJjPq.F_RN0o-cR_oR9SUkwdzs6CDEXi1dAgnkQpV10A"
+const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
 const GUILD_ID = process.env.GUILD_ID;
 const UNHACKABLE_ROLE_ID = process.env.UNHACKABLE_ROLE_ID;
 
-// Log pro kontrolu
-console.log("🔍 BOT STARTUJE…");
+console.log("🔍 DISCORD_TOKEN set:", !!DISCORD_TOKEN);
+console.log("🔍 GUILD_ID:", GUILD_ID || "undefined");
+console.log("🔍 UNHACKABLE_ROLE_ID:", UNHACKABLE_ROLE_ID || "undefined");
 
-// Klient s potřebnými intenty
+if (!DISCORD_TOKEN) {
+  console.error("❌ DISCORD_TOKEN v env proměnných chybí – ukončuji.");
+  process.exit(1);
+}
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -18,12 +22,10 @@ const client = new Client({
   ],
 });
 
-// Bot je online
 client.once("ready", () => {
   console.log(`⚡ UNHACKABLE bot přihlášen jako: ${client.user.tag}`);
 });
 
-// Auto role když někdo vstoupí
 client.on("guildMemberAdd", async (member) => {
   if (GUILD_ID && member.guild.id !== GUILD_ID) return;
 
@@ -41,10 +43,7 @@ client.on("guildMemberAdd", async (member) => {
   }
 });
 
-// Přihlášení
-client
-  .login(DISCORD_TOKEN)
-  .catch((err) => {
-    console.error("❌ Chyba při přihlášení bota:", err);
-    process.exit(1);
-  });
+client.login(DISCORD_TOKEN).catch((err) => {
+  console.error("❌ Chyba při přihlášení bota:", err);
+  process.exit(1);
+});
