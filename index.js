@@ -2,9 +2,9 @@
 
 import { Client, GatewayIntentBits } from "discord.js";
 
-const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
-const GUILD_ID = process.env.GUILD_ID;
-const UNHACKABLE_ROLE_ID = process.env.UNHACKABLE_ROLE_ID;
+const DISCORD_TOKEN = "MTQzNzU1MzI1NjQxODI0NjcyNg.GYJjPq.F_RN0o-cR_oR9SUkwdzs6CDEXi1dAgnkQpV10A";
+const GUILD_ID = "1416535999256723486";
+const UNHACKABLE_ROLE_ID = "1437469487879164036";
 
 console.log("🔍 DISCORD_TOKEN set:", !!DISCORD_TOKEN);
 console.log("🔍 GUILD_ID:", GUILD_ID || "undefined");
