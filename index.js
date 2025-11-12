@@ -2,21 +2,15 @@
 
 import { Client, GatewayIntentBits } from "discord.js";
 
-// Env proměnné z Railway
-const { DISCORD_TOKEN, GUILD_ID, UNHACKABLE_ROLE_ID } = process.env;
+// --- HARD CODE TOKEN (protože Railway ho nepředává) ---
+const DISCORD_TOKEN = "MTQzNzU1MzI1NjQxODI0NjcyNg.GYJjPq.F_RN0o-cR_oR9SUkwdzs6CDEXi1dAgnkQpV10A"
+const GUILD_ID = process.env.GUILD_ID;
+const UNHACKABLE_ROLE_ID = process.env.UNHACKABLE_ROLE_ID;
 
-if (!DISCORD_TOKEN) {
-  console.error("❌ Chybí DISCORD_TOKEN v env proměnných!");
-  process.exit(1);
-}
-if (!GUILD_ID) {
-  console.error("❌ Chybí GUILD_ID v env proměnných!");
-}
-if (!UNHACKABLE_ROLE_ID) {
-  console.error("❌ Chybí UNHACKABLE_ROLE_ID v env proměnných!");
-}
+// Log pro kontrolu
+console.log("🔍 BOT STARTUJE…");
 
-// Klient s potřebnými intenty (aby šly členové a role)
+// Klient s potřebnými intenty
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -31,7 +25,6 @@ client.once("ready", () => {
 
 // Auto role když někdo vstoupí
 client.on("guildMemberAdd", async (member) => {
-  // jen náš server
   if (GUILD_ID && member.guild.id !== GUILD_ID) return;
 
   try {
@@ -48,7 +41,7 @@ client.on("guildMemberAdd", async (member) => {
   }
 });
 
-// Přihlášení bota – DŮLEŽITÉ: používá process.env
+// Přihlášení
 client
   .login(DISCORD_TOKEN)
   .catch((err) => {
